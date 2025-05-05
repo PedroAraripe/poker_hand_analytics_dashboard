@@ -5,7 +5,7 @@ import tailwind from 'tailwindcss'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/poker-hands/',
+  base: '/',
   css: {
     postcss: {
       plugins: [tailwind(), autoprefixer()],
