@@ -64,7 +64,8 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: false,
     assetsInlineLimit: 0,
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    copyPublicDir: true
   },
   optimizeDeps: {
     include: ['vue', 'radix-vue', 'reka-ui'],
