@@ -54,7 +54,7 @@ export default defineConfig({
       }
     },
     assetsInlineLimit: 4096,
-    sourcemap: false,
+    sourcemap: true,
     cssCodeSplit: true,
     modulePreload: {
       polyfill: true
