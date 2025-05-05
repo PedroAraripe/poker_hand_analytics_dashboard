@@ -49,21 +49,29 @@ export default defineConfig({
         manualChunks: {
           'vue-core': ['vue'],
           'vue-router': ['vue-router'],
-          'reka': ['reka-ui'],
-          'radix': ['radix-vue']
-        }
+          'vue-pinia': ['pinia'],
+          'radix-vue': ['radix-vue']
+        },
+        format: 'es',
+        entryFileNames: '[name]-[hash].js',
+        chunkFileNames: '[name]-[hash].js',
+        assetFileNames: '[name]-[hash].[ext]'
       }
     },
-    sourcemap: true,
-    cssCodeSplit: true
+    modulePreload: {
+      polyfill: false
+    },
+    cssCodeSplit: true,
+    sourcemap: false
   },
   optimizeDeps: {
     include: ['vue', 'radix-vue', 'reka-ui'],
     force: true
   },
   server: {
-    hmr: {
-      overlay: false
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin'
     }
   }
 })
