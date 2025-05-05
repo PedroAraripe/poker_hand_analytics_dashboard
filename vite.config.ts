@@ -62,7 +62,8 @@ export default defineConfig({
       polyfill: false
     },
     cssCodeSplit: true,
-    sourcemap: false
+    sourcemap: false,
+    assetsInlineLimit: 0
   },
   optimizeDeps: {
     include: ['vue', 'radix-vue', 'reka-ui'],
@@ -71,7 +72,8 @@ export default defineConfig({
   server: {
     headers: {
       'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Cross-Origin-Opener-Policy': 'same-origin'
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Access-Control-Allow-Origin': '*'
     }
   }
 })
