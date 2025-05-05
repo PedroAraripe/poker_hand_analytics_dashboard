@@ -4,6 +4,19 @@
   ],
   "headers": [
     {
+      "source": "/site.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
       "source": "/(.*).js",
       "headers": [
         {
@@ -48,19 +61,6 @@
         {
           "key": "Content-Type",
           "value": "application/json"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).webmanifest",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/manifest+json"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
         }
       ]
     },
