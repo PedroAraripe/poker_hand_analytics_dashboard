@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1A1A1A"/>
+  <rect x="100" y="100" width="1000" height="430" rx="20" fill="#2A2A2A"/>
+  <text x="600" y="300" font-family="Arial" font-size="60" fill="white" text-anchor="middle">Poker Hand Analytics</text>
+  <text x="600" y="380" font-family="Arial" font-size="30" fill="#FF3B30" text-anchor="middle">Analise suas mãos de poker e melhore seu jogo</text>
+  <circle cx="600" cy="200" r="50" fill="#FF3B30"/>
+  <circle cx="600" cy="200" r="40" fill="#FF3B30"/>
+  <circle cx="600" cy="200" r="30" fill="#FF3B30"/>
+  <circle cx="600" cy="200" r="20" fill="#FF3B30"/>
+</svg> 

@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { SelectValue, type SelectValueProps } from 'radix-vue'
-
-const props = defineProps<SelectValueProps>()
+import { SelectValue } from "radix-vue";
 </script>
 
 <template>
-  <SelectValue v-bind="props">
+  <SelectValue>
     <slot />
   </SelectValue>
 </template>
+
+<script lang="ts">
+export default {
+  name: "SelectValue",
+};
+</script>

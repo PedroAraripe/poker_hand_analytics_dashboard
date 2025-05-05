@@ -5,16 +5,29 @@ import tailwind from 'tailwindcss'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/poker-hands/',
   css: {
     postcss: {
       plugins: [tailwind(), autoprefixer()],
     },
     devSourcemap: false,
   },
-  plugins: [vue()],
+  plugins: [
+    vue({
+      script: {
+        defineModel: true,
+        propsDestructure: true
+      },
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('radix-')
+        }
+      }
+    })
+  ],
   resolve: {
     alias: {
-      '@': resolve('./src')
+      '@': resolve(__dirname, './src')
     }
   },
   build: {
@@ -22,47 +35,35 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'],
-        passes: 2
+        drop_console: false,
+        drop_debugger: false,
+        pure_funcs: [],
+        passes: 1,
+        keep_fnames: true,
+        keep_classnames: true
       },
-      format: {
-        comments: false,
-        preserve_annotations: false
-      },
-      mangle: {
-        toplevel: true
-      }
+      mangle: false
     },
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('vue')) {
-              return 'vue-core';
-            }
-            if (id.includes('@vueuse')) {
-              return 'vue-use';
-            }
-            if (id.includes('radix-vue')) {
-              return 'radix';
-            }
-            return 'vendors';
-          }
+        manualChunks: {
+          'vue-core': ['vue'],
+          'vue-router': ['vue-router'],
+          'reka': ['reka-ui'],
+          'radix': ['radix-vue']
         }
       }
     },
-    assetsInlineLimit: 4096,
     sourcemap: true,
-    cssCodeSplit: true,
-    modulePreload: {
-      polyfill: true
-    }
+    cssCodeSplit: true
+  },
+  optimizeDeps: {
+    include: ['vue', 'radix-vue', 'reka-ui'],
+    force: true
   },
   server: {
     hmr: {
       overlay: false
     }
-  },
+  }
 })
