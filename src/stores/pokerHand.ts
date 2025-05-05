@@ -23,7 +23,7 @@ export const usePokerHandStatusStore = defineStore('poker-hand-status-store', ()
     try {
       let baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://127.0.0.1:8000'
-        : 'https://www.lucasdata.com.br';
+        : 'https://poker-hand-analytics.vercel.app';
 
       isLoading.value = true;
 
