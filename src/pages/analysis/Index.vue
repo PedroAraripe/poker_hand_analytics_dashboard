@@ -1,10 +1,22 @@
 <template>
   <div class="p-10 space-y-10">
-    <DonutChart v-bind="chartResume" />
-
-    <BarChart v-bind="chartStronger" />
-
-    <BarChart v-bind="chartWeaker" />
+    <Tabs default-value="general" class="w-[400px]">
+      <TabsList>
+        <TabsTrigger value="general"> Mãos gerais </TabsTrigger>
+        <TabsTrigger value="weaker"> Mãos mais fracas </TabsTrigger>
+        <TabsTrigger value="stronger"> Mãos mais fortes </TabsTrigger>
+      </TabsList>
+      <TabsContent value="stronger">
+        <BarChart v-bind="chartStronger" />
+      </TabsContent>
+      <TabsContent value="general">
+        <BarChart v-bind="chartResume" />
+        <!-- <DonutChart v-bind="chartResume" /> -->
+      </TabsContent>
+      <TabsContent value="weaker">
+        <BarChart v-bind="chartWeaker" />
+      </TabsContent>
+    </Tabs>
   </div>
 </template>
 
@@ -15,39 +27,47 @@ import { useRoute, useRouter } from "vue-router";
 import { pokerHands, type IPokerHand } from "@/types/handTypes";
 import { DonutChart } from "@/components/ui/chart-donut";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import BarChart from "@/components/ui/chart-bar/BarChart.vue";
 
 const pokerHandStore = usePokerHandStatusStore();
 
 const chartResume = computed(() => {
+  const label = "Força da mão";
+  const indexChart = "Qualidade da mão";
+
   const data = [
     {
-      name: "Combinações mais fracas",
-      total: pokerHandStore.handStatus?.hands_stronger_total_count,
-      predicted: pokerHandStore.handStatus?.hands_stronger_total_count,
+      [indexChart]: "Combinações mais fracas",
+      label: pokerHandStore.handStatus?.hands_stronger_total_count,
     },
     {
-      name: "Combinações da mesma categoria",
-      total: pokerHandStore.handStatus?.hands_same_category_total_count,
-      predicted: pokerHandStore.handStatus?.hands_same_category_total_count,
+      [indexChart]: "Combinações da mesma categoria",
+      label: pokerHandStore.handStatus?.hands_same_category_total_count,
     },
     {
-      name: "Combinações mais fortes",
-      total: pokerHandStore.handStatus?.hands_weaker_total_count,
-      predicted: pokerHandStore.handStatus?.hands_weaker_total_count,
+      [indexChart]: "Combinações mais fortes",
+      label: pokerHandStore.handStatus?.hands_weaker_total_count,
     },
-  ].map((d) => {
-    return {
-      ...d,
-      total: d?.total > 0 && d?.total < 1 ? 1 : d?.total,
-      valueFormatter: (val) => val + 1000,
-    };
-  });
+  ];
 
   return {
     data,
-    index: "name",
-    category: "total",
+    index: indexChart,
+    categories: [label],
+    "y-formatter": (tick, i) => `${tick} combinações melhores`,
   };
 });
 

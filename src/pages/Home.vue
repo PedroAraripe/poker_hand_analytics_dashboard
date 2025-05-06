@@ -5,8 +5,7 @@
       <FormField v-slot="{ componentField }" name="category">
         <FormItem>
           <FormLabel>Categoria da Mão</FormLabel>
-
-          <Select default-value="Royal Flush" v-bind="componentField">
+          <Select v-bind="componentField">
             <FormControl class="w-50">
               <SelectTrigger>
                 <SelectValue placeholder="Selecione uma categoria" />
@@ -42,7 +41,7 @@
         </FormItem>
       </FormField>
 
-      <Button class="mt-4 border-2 w-full" type="submit">
+      <Button size="lg" class="mt-4 border-2 w-full" type="submit">
         Visualizar análise
       </Button>
     </form>
@@ -90,7 +89,7 @@ const formSchema = toTypedSchema(
 const { handleSubmit } = useForm({
   validationSchema: formSchema,
   initialValues: {
-    category: "Royal Flush",
+    category: "",
   },
 });
 
