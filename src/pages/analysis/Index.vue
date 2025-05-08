@@ -1,22 +1,34 @@
 <template>
-  <div class="p-10 space-y-10">
-    <Tabs default-value="general" class="w-[400px]">
-      <TabsList>
-        <TabsTrigger value="general"> Mãos gerais </TabsTrigger>
-        <TabsTrigger value="weaker"> Mãos mais fracas </TabsTrigger>
-        <TabsTrigger value="stronger"> Mãos mais fortes </TabsTrigger>
-      </TabsList>
-      <TabsContent value="stronger">
-        <BarChart v-bind="chartStronger" />
-      </TabsContent>
-      <TabsContent value="general">
-        <BarChart v-bind="chartResume" />
-        <!-- <DonutChart v-bind="chartResume" /> -->
-      </TabsContent>
-      <TabsContent value="weaker">
-        <BarChart v-bind="chartWeaker" />
-      </TabsContent>
-    </Tabs>
+  <div
+    class="p-10 space-y-10 w-screen h-screen flex items-center justify-center"
+  >
+    <Card class="w-[900px] max-w-full">
+      <CardContent>
+        <Tabs default-value="general" class="w-full pt-5">
+          <TabsList>
+            <TabsTrigger class="h-[3rem] rounded-none" value="general">
+              Mãos gerais
+            </TabsTrigger>
+            <TabsTrigger class="h-[3rem] rounded-none" value="weaker">
+              Mãos mais fortes
+            </TabsTrigger>
+            <TabsTrigger class="h-[3rem] rounded-none" value="stronger">
+              Mãos mais fracas
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="stronger">
+            <BarChart v-bind="chartStronger" />
+          </TabsContent>
+          <TabsContent value="general">
+            <BarChart v-bind="chartResume" />
+            <!-- <DonutChart v-bind="chartResume" /> -->
+          </TabsContent>
+          <TabsContent value="weaker">
+            <BarChart v-bind="chartWeaker" />
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
   </div>
 </template>
 
@@ -39,69 +51,69 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { formatBigNumberShorter } from "@/helpers/formatters";
+
+const formatBigNumberYTick = (num?: number) => formatBigNumberShorter(num || 0);
+
+const baseLabel = "Possíveis combinações";
 
 import BarChart from "@/components/ui/chart-bar/BarChart.vue";
 
 const pokerHandStore = usePokerHandStatusStore();
 
 const chartResume = computed(() => {
-  const label = "Força da mão";
   const indexChart = "Qualidade da mão";
 
   const data = [
     {
-      [indexChart]: "Combinações mais fracas",
-      label: pokerHandStore.handStatus?.hands_stronger_total_count,
+      [indexChart]: "Mãos mais fracas",
+      [baseLabel]: pokerHandStore.handStatus?.hands_stronger_total_count,
     },
     {
-      [indexChart]: "Combinações da mesma categoria",
-      label: pokerHandStore.handStatus?.hands_same_category_total_count,
+      [indexChart]: "Mãos da mesma categoria",
+      [baseLabel]: pokerHandStore.handStatus?.hands_same_category_total_count,
     },
     {
-      [indexChart]: "Combinações mais fortes",
-      label: pokerHandStore.handStatus?.hands_weaker_total_count,
+      [indexChart]: "Mãos mais fortes",
+      [baseLabel]: pokerHandStore.handStatus?.hands_weaker_total_count,
     },
   ];
 
   return {
     data,
     index: indexChart,
-    categories: [label],
-    "y-formatter": (tick, i) => `${tick} combinações melhores`,
+    categories: [baseLabel],
+    "y-formatter": formatBigNumberYTick,
   };
 });
 
 const chartStronger = computed(() => {
-  const label = "Mãos de Poker Mais Fracas %";
-
   const data =
     pokerHandStore.handStatus?.hand_stronger_summary_sorted.map((c) => ({
-      [label]: c.percentage,
+      [baseLabel]: c.hand,
       "Categoria Carta": c.category,
     })) || [];
 
   return {
     data,
     index: "Categoria Carta",
-    categories: [label],
-    "y-formatter": (tick, i) => `${tick}%`,
+    categories: [baseLabel],
+    "y-formatter": formatBigNumberYTick,
   };
 });
 
 const chartWeaker = computed(() => {
-  const label = "Mãos de Poker Mais Fortes %";
-
   const data =
     pokerHandStore.handStatus?.hand_weaker_summary_sorted.map((c) => ({
-      [label]: c.percentage,
+      [baseLabel]: c.hand,
       "Categoria Carta": c.category,
     })) || [];
 
   return {
     data,
     index: "Categoria Carta",
-    categories: [label],
-    "y-formatter": (tick, i) => `${tick}%`,
+    categories: [baseLabel],
+    "y-formatter": formatBigNumberYTick,
   };
 });
 
@@ -124,7 +136,6 @@ watch(
     const pokerHand = val as IPokerHand;
 
     if (val && pokerHands.includes(pokerHand)) {
-      // pokerHandStatusStore.loadHandStatus(category as IPokerHand)
       pokerHandStatusStore.loadHandStatus(pokerHand);
     }
   },

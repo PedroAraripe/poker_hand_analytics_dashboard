@@ -31,7 +31,7 @@ defineProps<{
               />
             </svg>
           </span>
-          <span>{{ item.name }}</span>
+          <span>{{ item.name }}:</span>
         </div>
         <span class="font-semibold ml-4">{{ item.value }}</span>
       </div>
